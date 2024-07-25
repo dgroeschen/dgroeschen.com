@@ -20,8 +20,17 @@
             border-radius: 50%;
             width: 200px;
             height: 200px;
+            max-width: 100%;
             object-fit: cover;
             border: 2px solid #3498db;
+        }
+        @media (max-width: 768px) {
+            .profile-pic {
+                position: static;
+                max-width: 200px;
+                margin: 0 auto 20px;
+                display: block;
+            }
         }
         .left-column {
             background-color: #1f2b50;
@@ -123,9 +132,9 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4 left-column">
-                <h2>ABOUT ME</h2>
-                <p>Seasoned Data Protection Specialist with 13+ years crafting customer-focused IT solutions, adept in Linux/Windows, Commvault, Veeam, and more. ITIL-certified, GDPR/HIPAA-savvy, with a zeal for system optimization and team collaboration. Eager to contribute to your success.</p>
                 <img src="images/profile.jpg" alt="Profile Picture" class="profile-pic">
+                <h2>ABOUT ME</h2>
+                <p>Seasoned Data Protection Specialist with 13+ years crafting customer-focused IT solutions, experienced in Windows, Linux, Commvault, Veeam, and more. ITIL-certified, GDPR/HIPAA focused, with a zeal for system optimization and team collaboration.</p>
 
                 <div class="section-title">EDUCATION</div>
                 <div class="experience-title">Bachelor of Computer Science</div>
