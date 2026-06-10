@@ -1,243 +1,469 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daniel Groeschen - Resume</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            background-color: #1e1e1e;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-        }
-        .profile-pic {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            border-radius: 50%;
-            width: 200px;
-            height: 200px;
-            max-width: 100%;
-            object-fit: cover;
-            border: 2px solid #3498db;
-        }
-        @media (max-width: 768px) {
-            .profile-pic {
-                position: static;
-                max-width: 200px;
-                margin: 0 auto 20px;
-                display: block;
-            }
-        }
-        .left-column {
-            background-color: #1f2b50;
-            padding: 30px;
-        }
-        .right-column {
-            background-color: #1e1e1e;
-            padding: 30px;
-        }
-        h1 {
-            color: #3498db;
-            font-size: 2.5rem;
-            line-height: 1.2;
-            margin-bottom: 10px;
-        }
-        h2 {
-            color: #3498db;
-            font-size: 1.5rem;
-            margin-top: 30px;
-            border-bottom: 1px solid #3498db;
-            padding-bottom: 10px;
-        }
-        .job-title {
-            color: #95a5a6;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-        }
-        .contact-info {
-            color: #95a5a6;
-            margin-bottom: 5px;
-        }
-        .section-title {
-            color: #ffffff;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #3498db;
-            padding-bottom: 10px;
-        }
-        .skill {
-            margin-bottom: 5px;
-        }
-        .experience-container {
-            position: relative;
-            margin-top: 20px;
-            display: flex;
-        }
-        .timeline {
-            position: relative;
-            width: 2px;
-            background-color: #3498db;
-            margin: 0 20px;
-        }
-        .experience-item {
-            margin-bottom: 30px;
-            position: relative;
-            display: flex;
-        }
-        .experience-left {
-            width: 150px;
-            padding-right: 20px;
-            text-align: right;
-        }
-        .experience-right {
-            flex: 1;
-        }
-        .experience-title {
-            color: #3498db;
-            font-weight: bold;
-        }
-        .experience-company {
-            color: #95a5a6;
-        }
-        .experience-date {
-            color: #95a5a6;
-            font-size: 0.9rem;
-        }
-        ul {
-            padding-left: 20px;
-        }
-        .contact-icon {
-            width: 20px;
-            text-align: center;
-            margin-right: 10px;
-            color: #3498db;
-        }
-        .links-languages {
-            margin-top: 30px;
-        }
-        .footer {
-            text-align: center;
-            color: #95a5a6;
-            margin-top: 40px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daniel Groeschen — Resume</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0f1f3d;
+      --navy2:  #1a2e52;
+      --blue:   #3b82f6;
+      --blue-lt:#dbeafe;
+      --muted:  #94a3b8;
+      --text:   #e2e8f0;
+      --body:   #cbd5e1;
+      --bg:     #0f172a;
+      --card:   #1e293b;
+      --border: rgba(59,130,246,0.25);
+      --print-bg: #ffffff;
+      --print-text: #1e293b;
+      --print-muted: #64748b;
+      --print-blue: #1d4ed8;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ── TOOLBAR ───────────────────────────────────────── */
+    .toolbar {
+      background: var(--navy2);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .toolbar span {
+      font-size: 12px;
+      color: var(--muted);
+      margin-right: auto;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      transition: background 0.15s, color 0.15s;
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn:hover { background: rgba(59,130,246,0.15); color: #fff; }
+    .btn-primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .btn-primary:hover { background: #2563eb; }
+    #copy-toast {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e293b;
+      color: #86efac;
+      border: 1px solid #166534;
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-size: 13px;
+      z-index: 999;
+    }
+
+    /* ── LAYOUT ────────────────────────────────────────── */
+    .resume {
+      max-width: 1100px;
+      margin: 32px auto;
+      padding: 0 16px 48px;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 0;
+      background: var(--card);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    /* ── SIDEBAR ───────────────────────────────────────── */
+    .sidebar {
+      background: var(--navy2);
+      padding: 36px 24px;
+      border-right: 1px solid var(--border);
+    }
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 2px solid var(--blue);
+      display: block;
+      margin: 0 auto 20px;
+      object-fit: cover;
+    }
+    .sidebar-section { margin-top: 28px; }
+    .sidebar-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar p { color: var(--body); font-size: 13px; line-height: 1.65; }
+    .skill-chip {
+      display: inline-block;
+      background: rgba(59,130,246,0.12);
+      color: var(--blue-lt);
+      border: 1px solid rgba(59,130,246,0.3);
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 11px;
+      margin: 3px 3px 3px 0;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .lang-chip {
+      display: inline-block;
+      background: rgba(15,31,61,0.6);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 11px;
+      margin: 3px 3px 3px 0;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .sidebar a { color: var(--muted); font-size: 13px; text-decoration: none; display: block; margin-bottom: 6px; }
+    .sidebar a:hover { color: var(--blue); }
+    .sidebar a i { width: 16px; margin-right: 6px; color: var(--blue); }
+    .edu-degree { color: var(--text); font-size: 13px; font-weight: 500; }
+    .edu-school { color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+    /* ── MAIN ──────────────────────────────────────────── */
+    .main { padding: 36px 36px 36px 32px; }
+    .name { font-size: 2rem; font-weight: 600; color: #fff; letter-spacing: -0.02em; line-height: 1.1; }
+    .title-badge {
+      display: inline-block;
+      background: rgba(59,130,246,0.15);
+      color: var(--blue);
+      border: 1px solid rgba(59,130,246,0.4);
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-top: 6px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .contact-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .contact-row span i { color: var(--blue); margin-right: 5px; }
+
+    .section-header {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-top: 32px;
+      margin-bottom: 16px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── TIMELINE ──────────────────────────────────────── */
+    .timeline { position: relative; padding-left: 20px; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 6px;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+    .job { position: relative; margin-bottom: 28px; }
+    .job::before {
+      content: '';
+      position: absolute;
+      left: -24px;
+      top: 6px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+      border: 2px solid var(--bg);
+    }
+    .job-header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 4px; }
+    .job-company { font-weight: 600; color: #fff; font-size: 15px; }
+    .job-date {
+      font-size: 11px;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(15,31,61,0.5);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 8px;
+    }
+    .job-role { color: var(--blue); font-size: 13px; font-weight: 500; margin: 2px 0 6px; }
+    .job-location { color: var(--muted); font-size: 12px; margin-bottom: 8px; }
+    .job-location i { margin-right: 4px; }
+    .job ul { padding-left: 16px; color: var(--body); }
+    .job ul li { margin-bottom: 5px; font-size: 13px; line-height: 1.6; }
+    .job ul li::marker { color: var(--blue); }
+
+    /* ── PRINT ─────────────────────────────────────────── */
+    @media print {
+      .toolbar { display: none !important; }
+      body { background: #fff; color: #1e293b; font-size: 11pt; }
+      .resume {
+        max-width: 100%;
+        margin: 0;
+        border-radius: 0;
+        border: none;
+        grid-template-columns: 220px 1fr;
+        background: #fff;
+      }
+      .sidebar { background: #f1f5f9; border-right: 1px solid #e2e8f0; }
+      .sidebar-label { color: #1d4ed8; border-bottom-color: #bfdbfe; }
+      .skill-chip { background: #dbeafe; color: #1e40af; border-color: #bfdbfe; }
+      .lang-chip { background: #f1f5f9; color: #64748b; border-color: #e2e8f0; }
+      .sidebar a { color: #475569; }
+      .sidebar p { color: #475569; }
+      .edu-degree { color: #1e293b; }
+      .edu-school { color: #64748b; }
+      .name { color: #0f172a; }
+      .title-badge { background: #dbeafe; color: #1d4ed8; border-color: #bfdbfe; }
+      .contact-row { color: #64748b; }
+      .contact-row span i { color: #1d4ed8; }
+      .section-header { color: #1d4ed8; border-bottom-color: #bfdbfe; }
+      .timeline::before { background: #bfdbfe; }
+      .job::before { background: #1d4ed8; border-color: #fff; }
+      .job-company { color: #0f172a; }
+      .job-role { color: #1d4ed8; }
+      .job-location { color: #64748b; }
+      .job-date { background: #f1f5f9; color: #475569; border-color: #e2e8f0; }
+      .job ul { color: #374151; }
+      .job ul li::marker { color: #1d4ed8; }
+      .main { padding: 24px 24px 24px 20px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-4 left-column">
-                <img src="images/profile.jpg" alt="Profile Picture" class="profile-pic">
-                <h2>ABOUT ME</h2>
-                <p>Seasoned Data Protection Specialist with 13+ years crafting customer-focused IT solutions, experienced in Windows, Linux, Commvault, Veeam, and more. ITIL-certified, GDPR/HIPAA focused, with a zeal for system optimization and team collaboration.</p>
 
-                <div class="section-title">EDUCATION</div>
-                <div class="experience-title">Bachelor of Science</div>
-                <div class="skill">Northern Kentucky University (2010)</div>
+<div class="toolbar">
+  <span></span>
+  <button class="btn" onclick="window.print()"><i class="fas fa-print"></i> Print / PDF</button>
+  <button class="btn btn-primary" onclick="copyMarkdown()"><i class="fab fa-markdown"></i> Copy as Markdown</button>
+</div>
 
-                <div class="section-title">SKILLS</div>
-                <div class="skill">Backup Administration</div>
-                <div class="skill">Capacity Planning</div>
-                <div class="skill">Data Protection Strategies</div>
-                <div class="skill">Documentation</div>
-                <div class="skill">Communication</div>
-                <div class="skill">Server Management</div>
+<div id="copy-toast">✓ Markdown copied to clipboard</div>
 
-                <div class="section-title">LINKS</div>
-                <div><a href="https://www.linkedin.com/in/daniel-groeschen" style="color: #95a5a6;">LinkedIn</a></div>
-                <div><a href="https://github.com/dgroeschen" style="color: #95a5a6;">Github</a></div>
-                <div><a href="https://dgroeschen.com" style="color: #95a5a6;">Personal Webpage</a></div>
+<div class="resume" id="resume">
 
-                <div class="section-title">LANGUAGES</div>
-                <div>Powershell</div>
-                <div>Bash</div>
-                <div>Python</div>
-                <div>Perl</div>
-                <div>HTML/CSS</div>
-            </div>
-            <div class="col-md-8 right-column">
-                <h1>DANIEL GROESCHEN</h1>
-                <div class="job-title">BACKUP ENGINEER III</div>
-                <div class="contact-info"><i class="fas fa-map-marker-alt contact-icon"></i>Mason OH USA</div>
-                <div class="contact-info"><i class="fas fa-envelope contact-icon"></i>daniel@dgroeschen.com</div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <img src="images/profile.jpg" alt="Daniel Groeschen" class="profile-pic">
 
-                <h2>WORK EXPERIENCE</h2>
-                <div class="experience-container">
-                    <div class="experience-left"></div>
-                    <div class="experience-right"></div>
-                </div>
-                <div class="experience-item">
-                    <div class="experience-left">
-                        <div class="experience-title">CBTS</div>
-                        <div class="experience-date">Aug 2013 - Present</div>
-                    </div>
-                    <div class="timeline"></div>
-                    <div class="experience-right">
-                        <div class="experience-company">Springdale, OH</div>
-                        <div class="experience-title">Backup Engineer III</div>
-                        <ul>
-                            <li>5+ yrs Commvault, 7+ yrs Veeam, 9+ yrs Avamar, 4+ yrs NetBackup expertise.</li>
-                            <li>Deploy & maintain backups in multi-tenant/private environments.</li>
-                            <li>Skilled in deploying and maintaining backup solutions for multi-tenant and private environments.</li>
-                            <li>Conduct analysis to provide environment-specific recommendations and improvements while representing the company professionally.</li>
-                            <li>Expertise in assisting customer inquiries, configuring client-specific setups, and addressing business requirements.</li>
-                            <li>Optimize backups per best practices for performance & reliability.</li>
-                            <li>Experience in training and mentoring junior team members on data protection best practices and emerging technologies.</li>
-                            <li>Collaborate on implementing security measures (e.g., GDPR, HIPAA) and ensuring compliance within backup environments.</li>
-                            <li>Automate operational workflows using PowerShell scripts to improve efficiency and accuracy.</li>
-                            <li>Create comprehensive configurations, operational procedures for clarity, and continuity in multi-tenant and private environments.</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="experience-item">
-                    <div class="experience-left">
-                        <div class="experience-title">LTI (LOGIC TECHNOLOGY INC.)</div>
-                        <div class="experience-date">May 2012 - Aug 2013</div>
-                    </div>
-                    <div class="timeline"></div>
-                    <div class="experience-right">
-                        <div class="experience-company">Mason, OH</div>
-                        <div class="experience-title">Infrastructure Support Consultant II</div>
-                        <ul>
-                            <li>Administered backups across in-excess of 8000 servers using 5 different backup technologies.</li>
-                            <li>Support large infrastructure of enterprise-class servers running UNIX/Windows/HPUX.</li>
-                            <li>Implement patching on all variation of Backup Technologies.</li>
-                            <li>Performed restores for multiple customers.</li>
-                            <li>Documented and taught revisions of daily process for backup run team.</li>
-                            <li>Customizing scripts to help manage the reporting process of the environment and improving workflow.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="experience-item">
-                    <div class="experience-left">
-                        <div class="experience-title">SB Comp</div>
-                        <div class="experience-date">August 2010 - May 2012</div>
-                    </div>
-                    <div class="timeline"></div>
-                    <div class="experience-right">
-                        <div class="experience-company">Bellevue, KY</div>
-                        <div class="experience-title">OnSite Tech & Sales</div>
-                        <ul>
-                            <li>Computer Repair & Diagnostics.</li>
-                            <li>System Rebuilding.</li>
-                            <li>Office Suite & General Computer Troubleshooting Problem Solving.</li>
-                            <li>Batch scripting.</li>
-                            <li>Data Backup & Virus Prevention.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">About</div>
+      <p>Seasoned Data Protection Specialist with 13+ years crafting enterprise IT solutions. ITIL-certified, GDPR/HIPAA focused, with deep expertise in Commvault, Veeam, and multi-cloud backup environments.</p>
     </div>
-</body>
-<footer class="footer">
-    Site and design © 2024 dgroeschen.com
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Education</div>
+      <div class="edu-degree">Bachelor of Science</div>
+      <div class="edu-school">Northern Kentucky University · 2010</div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Skills</div>
+      <span class="skill-chip">Backup Administration</span>
+      <span class="skill-chip">Capacity Planning</span>
+      <span class="skill-chip">Data Protection</span>
+      <span class="skill-chip">Disaster Recovery</span>
+      <span class="skill-chip">SAN / NAS</span>
+      <span class="skill-chip">VMware / Hyper-V</span>
+      <span class="skill-chip">Azure / AWS</span>
+      <span class="skill-chip">ITIL</span>
+      <span class="skill-chip">GDPR / HIPAA</span>
+      <span class="skill-chip">Server Management</span>
+      <span class="skill-chip">Documentation</span>
+      <span class="skill-chip">Vendor Management</span>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Languages</div>
+      <span class="lang-chip">PowerShell</span>
+      <span class="lang-chip">Bash</span>
+      <span class="lang-chip">Python</span>
+      <span class="lang-chip">Perl</span>
+      <span class="lang-chip">HTML/CSS</span>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Links</div>
+      <a href="https://www.linkedin.com/in/daniel-groeschen" target="_blank"><i class="fab fa-linkedin"></i>LinkedIn</a>
+      <a href="https://github.com/dgroeschen" target="_blank"><i class="fab fa-github"></i>GitHub</a>
+      <a href="https://dgroeschen.com" target="_blank"><i class="fas fa-globe"></i>dgroeschen.com</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="name">Daniel Groeschen</div>
+    <div class="title-badge">Data Protection Engineer</div>
+    <div class="contact-row">
+      <span><i class="fas fa-map-marker-alt"></i>Mason, OH USA</span>
+      <span><i class="fas fa-envelope"></i>daniel@dgroeschen.com</span>
+    </div>
+
+    <div class="section-header">Work Experience</div>
+
+    <div class="timeline">
+
+      <div class="job">
+        <div class="job-header">
+          <span class="job-company">CBTS</span>
+          <span class="job-date">Aug 2013 – Present</span>
+        </div>
+        <div class="job-role">Backup Engineer III</div>
+        <div class="job-location"><i class="fas fa-map-marker-alt"></i>Springdale, OH</div>
+        <ul>
+          <li>Serve as L3 escalation point for complex data protection incidents, performing root cause analysis and driving permanent fixes for critical backup failures and performance degradation.</li>
+          <li>Design, implement, and maintain enterprise backup and recovery solutions across multi-tenant and private environments, ensuring backup policies, schedules, retention, and replication align with disaster recovery readiness requirements.</li>
+          <li>Manage backup operations across Windows/Linux servers, VMware/Hyper-V, and databases (SQL, Oracle, SAP, Exchange), with hands-on experience integrating cloud backup via Azure and AWS.</li>
+          <li>Coordinate with vendors and internal stakeholders on critical incidents, upgrades, and hardware replacements, including L1-level HP Storage support (disk, controller, power supply, and cable replacements).</li>
+          <li>Optimize backup environments using industry best practices across SAN, NAS, and object storage technologies, applying TCP/IP and firewall knowledge to ensure reliable data transport.</li>
+          <li>Automate operational workflows using PowerShell scripting, reducing manual effort and improving accuracy across upgrade, enhancement, and optimization cycles.</li>
+          <li>Provide mentoring and technical guidance to L1/L2 teams on data protection best practices, and review operational procedures to drive consistency across multi-tenant environments.</li>
+          <li>Collaborate with compliance and security teams to implement and maintain controls for GDPR, HIPAA, and related frameworks within backup environments.</li>
+          <li>Participate in on-call rotations handling P1/P2 incidents, applying ITIL-aligned processes for incident, problem, and change management with clear stakeholder communication.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <span class="job-company">LTI (Logic Technology Inc.)</span>
+          <span class="job-date">May 2012 – Aug 2013</span>
+        </div>
+        <div class="job-role">Infrastructure Support Consultant II</div>
+        <div class="job-location"><i class="fas fa-map-marker-alt"></i>Mason, OH</div>
+        <ul>
+          <li>Administered backups across 8,000+ servers using five different backup technologies.</li>
+          <li>Supported large infrastructure of enterprise-class servers running UNIX, Windows, and HP-UX.</li>
+          <li>Implemented patching across all variations of backup technologies.</li>
+          <li>Performed restores for multiple customers and documented revisions to daily backup run processes.</li>
+          <li>Developed custom scripts to manage environment reporting and improve operational workflow efficiency.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <span class="job-company">SB Comp</span>
+          <span class="job-date">Aug 2010 – May 2012</span>
+        </div>
+        <div class="job-role">OnSite Tech &amp; Sales</div>
+        <div class="job-location"><i class="fas fa-map-marker-alt"></i>Bellevue, KY</div>
+        <ul>
+          <li>Performed computer repair, diagnostics, and system rebuilds for residential and small business clients.</li>
+          <li>Provided Office Suite support, general troubleshooting, batch scripting, data backup, and virus prevention.</li>
+        </ul>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<footer style="text-align:center; color:#475569; font-size:12px; padding: 16px 0 32px; font-family: 'JetBrains Mono', monospace;">
+  Site and design © 2025 dgroeschen.com
 </footer>
+
+<script>
+function copyMarkdown() {
+  const md = `# Daniel Groeschen
+**Data Protection L3 Engineer**
+Mason, OH USA · daniel@dgroeschen.com
+LinkedIn: https://www.linkedin.com/in/daniel-groeschen · GitHub: https://github.com/dgroeschen · Web: https://dgroeschen.com
+
+---
+
+## About
+Seasoned Data Protection Specialist with 13+ years crafting enterprise IT solutions. ITIL-certified, GDPR/HIPAA focused, with deep expertise in Commvault, Veeam, and multi-cloud backup environments.
+
+---
+
+## Work Experience
+
+### Backup Engineer III — CBTS, Springdale OH
+**Aug 2013 – Present**
+
+- Serve as L3 escalation point for complex data protection incidents, performing root cause analysis and driving permanent fixes for critical backup failures and performance degradation.
+- Design, implement, and maintain enterprise backup and recovery solutions across multi-tenant and private environments, ensuring backup policies, schedules, retention, and replication align with disaster recovery readiness requirements.
+- Manage backup operations across Windows/Linux servers, VMware/Hyper-V, and databases (SQL, Oracle, SAP, Exchange), with hands-on experience integrating cloud backup via Azure and AWS.
+- Coordinate with vendors and internal stakeholders on critical incidents, upgrades, and hardware replacements, including L1-level HP Storage support (disk, controller, power supply, and cable replacements).
+- Optimize backup environments using industry best practices across SAN, NAS, and object storage technologies, applying TCP/IP and firewall knowledge to ensure reliable data transport.
+- Automate operational workflows using PowerShell scripting, reducing manual effort and improving accuracy across upgrade, enhancement, and optimization cycles.
+- Provide mentoring and technical guidance to L1/L2 teams on data protection best practices, and review operational procedures to drive consistency across multi-tenant environments.
+- Collaborate with compliance and security teams to implement and maintain controls for GDPR, HIPAA, and related frameworks within backup environments.
+- Participate in on-call rotations handling P1/P2 incidents, applying ITIL-aligned processes for incident, problem, and change management with clear stakeholder communication.
+
+### Infrastructure Support Consultant II — LTI (Logic Technology Inc.), Mason OH
+**May 2012 – Aug 2013**
+
+- Administered backups across 8,000+ servers using five different backup technologies.
+- Supported large infrastructure of enterprise-class servers running UNIX, Windows, and HP-UX.
+- Implemented patching across all variations of backup technologies.
+- Performed restores for multiple customers and documented revisions to daily backup run processes.
+- Developed custom scripts to manage environment reporting and improve operational workflow efficiency.
+
+### OnSite Tech & Sales — SB Comp, Bellevue KY
+**Aug 2010 – May 2012**
+
+- Performed computer repair, diagnostics, and system rebuilds for residential and small business clients.
+- Provided Office Suite support, general troubleshooting, batch scripting, data backup, and virus prevention.
+
+---
+
+## Education
+**Bachelor of Science** — Northern Kentucky University (2010)
+
+---
+
+## Skills
+Backup Administration · Capacity Planning · Data Protection · Disaster Recovery · SAN/NAS · VMware/Hyper-V · Azure/AWS · ITIL · GDPR/HIPAA · Server Management · Documentation · Vendor Management
+
+## Languages
+PowerShell · Bash · Python · Perl · HTML/CSS`;
+
+  navigator.clipboard.writeText(md).then(() => {
+    const toast = document.getElementById('copy-toast');
+    toast.style.display = 'block';
+    setTimeout(() => toast.style.display = 'none', 2500);
+  });
+}
+</script>
+
+</body>
 </html>
