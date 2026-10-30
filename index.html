@@ -14,16 +14,12 @@
       --navy2:  #1a2e52;
       --blue:   #3b82f6;
       --blue-lt:#dbeafe;
-      --muted:  #94a3b8;
+      --muted:  #a3b4cc;   /* bumped from #94a3b8 for WCAG contrast on navy */
       --text:   #e2e8f0;
       --body:   #cbd5e1;
       --bg:     #0f172a;
       --card:   #1e293b;
       --border: rgba(59,130,246,0.25);
-      --print-bg: #ffffff;
-      --print-text: #1e293b;
-      --print-muted: #64748b;
-      --print-blue: #1d4ed8;
     }
 
     body {
@@ -34,6 +30,8 @@
       line-height: 1.6;
     }
 
+    :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
     /* ── TOOLBAR ───────────────────────────────────────── */
     .toolbar {
       background: var(--navy2);
@@ -41,6 +39,7 @@
       padding: 10px 24px;
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 10px;
       position: sticky;
       top: 0;
@@ -89,7 +88,7 @@
     .resume {
       max-width: 1100px;
       margin: 32px auto;
-      padding: 0 16px 48px;
+      padding: 0;
       display: grid;
       grid-template-columns: 260px 1fr;
       gap: 0;
@@ -98,6 +97,7 @@
       overflow: hidden;
       border: 1px solid var(--border);
     }
+    .page-wrap { padding: 0 16px 48px; }
 
     /* ── SIDEBAR ───────────────────────────────────────── */
     .sidebar {
@@ -115,6 +115,7 @@
       object-fit: cover;
     }
     .sidebar-section { margin-top: 28px; }
+    .sidebar-section:first-of-type { margin-top: 0; }
     .sidebar-label {
       font-size: 10px;
       font-weight: 600;
@@ -151,8 +152,8 @@
     .sidebar a { color: var(--muted); font-size: 13px; text-decoration: none; display: block; margin-bottom: 6px; }
     .sidebar a:hover { color: var(--blue); }
     .sidebar a i { width: 16px; margin-right: 6px; color: var(--blue); }
-    .edu-degree { color: var(--text); font-size: 13px; font-weight: 500; }
-    .edu-school { color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .edu-degree, .cert-name { color: var(--text); font-size: 13px; font-weight: 500; }
+    .edu-school, .cert-issuer { color: var(--muted); font-size: 12px; margin-top: 2px; }
 
     /* ── MAIN ──────────────────────────────────────────── */
     .main { padding: 36px 36px 36px 32px; }
@@ -225,61 +226,121 @@
       border: 1px solid var(--border);
       border-radius: 4px;
       padding: 2px 8px;
+      white-space: nowrap;
     }
     .job-role { color: var(--blue); font-size: 13px; font-weight: 500; margin: 2px 0 6px; }
     .job-location { color: var(--muted); font-size: 12px; margin-bottom: 8px; }
     .job-location i { margin-right: 4px; }
+    .job-scope { color: var(--body); font-size: 13px; line-height: 1.6; margin-bottom: 14px; font-style: italic; }
     .job ul { padding-left: 16px; color: var(--body); }
     .job ul li { margin-bottom: 5px; font-size: 13px; line-height: 1.6; }
     .job ul li::marker { color: var(--blue); }
+    .job-subhead {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 14px 0 8px;
+    }
+    .job-subhead:first-of-type { margin-top: 0; }
+    .initiative-name { color: #fff; font-weight: 600; }
+    .initiative-date {
+      font-size: 11px;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 400;
+    }
+
+    /* ── MOBILE ────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .resume {
+        grid-template-columns: 1fr;   /* stack to single column */
+        margin: 16px auto;
+      }
+      .page-wrap { padding: 0 10px 32px; }
+      .sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 28px 20px;
+      }
+      /* On phones, experience matters most: move main content above the
+         sidebar details by reordering the grid. Header info lives in .main. */
+      .main { padding: 28px 20px; order: -1; }
+      .name { font-size: 1.6rem; }
+      .contact-row { gap: 12px; }
+      .toolbar { padding: 10px 12px; }
+      .toolbar span { display: none; }   /* hide mono label, keep buttons reachable */
+      .timeline { padding-left: 16px; }
+      .job::before { left: -20px; }
+      .job-header { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
 
     /* ── PRINT ─────────────────────────────────────────── */
     @media print {
-      .toolbar { display: none !important; }
-      body { background: #fff; color: #1e293b; font-size: 11pt; }
+      @page { margin: 0.5in; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .toolbar, footer, #copy-toast { display: none !important; }
+      .profile-pic { display: none !important; }   /* keep photo web-only */
+      body { background: #fff; color: #1e293b; font-size: 10.5pt; }
       .resume {
         max-width: 100%;
         margin: 0;
         border-radius: 0;
         border: none;
-        grid-template-columns: 220px 1fr;
+        grid-template-columns: 200px 1fr;
         background: #fff;
+        overflow: visible;
       }
-      .sidebar { background: #f1f5f9; border-right: 1px solid #e2e8f0; }
+      .page-wrap { padding: 0; }
+      .sidebar { background: #f1f5f9; border-right: 1px solid #e2e8f0; padding: 20px 16px; }
+      .sidebar-section:first-of-type { margin-top: 0; }
       .sidebar-label { color: #1d4ed8; border-bottom-color: #bfdbfe; }
       .skill-chip { background: #dbeafe; color: #1e40af; border-color: #bfdbfe; }
-      .lang-chip { background: #f1f5f9; color: #64748b; border-color: #e2e8f0; }
+      .lang-chip { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
       .sidebar a { color: #475569; }
-      .sidebar p { color: #475569; }
-      .edu-degree { color: #1e293b; }
-      .edu-school { color: #64748b; }
+      .sidebar a[href]::after { content: none; }
+      .sidebar p { color: #334155; }
+      .edu-degree, .cert-name { color: #1e293b; }
+      .edu-school, .cert-issuer { color: #64748b; }
       .name { color: #0f172a; }
       .title-badge { background: #dbeafe; color: #1d4ed8; border-color: #bfdbfe; }
-      .contact-row { color: #64748b; }
+      .contact-row { color: #475569; }
       .contact-row span i { color: #1d4ed8; }
       .section-header { color: #1d4ed8; border-bottom-color: #bfdbfe; }
       .timeline::before { background: #bfdbfe; }
       .job::before { background: #1d4ed8; border-color: #fff; }
+      .job { break-inside: avoid; }          /* don't split a role across pages */
       .job-company { color: #0f172a; }
       .job-role { color: #1d4ed8; }
       .job-location { color: #64748b; }
+      .job-scope { color: #374151; }
       .job-date { background: #f1f5f9; color: #475569; border-color: #e2e8f0; }
+      .job-subhead { color: #64748b; }
+      .initiative-name { color: #0f172a; }
+      .initiative-date { color: #64748b; }
       .job ul { color: #374151; }
       .job ul li::marker { color: #1d4ed8; }
-      .main { padding: 24px 24px 24px 20px; }
+      .main { padding: 20px 20px 20px 18px; }
     }
   </style>
 </head>
 <body>
 
 <div class="toolbar">
-  <span></span>
-  <button class="btn" onclick="window.print()"><i class="fas fa-print"></i> Print / PDF</button>
+  <span>dgroeschen.com</span>
+  <a class="btn" href="Daniel-Groeschen-Resume.pdf" download="Daniel-Groeschen-Resume.pdf"><i class="fas fa-file-pdf"></i> Download PDF</a>
+  <button class="btn" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
   <button class="btn btn-primary" onclick="copyMarkdown()"><i class="fab fa-markdown"></i> Copy as Markdown</button>
 </div>
 
 <div id="copy-toast">✓ Markdown copied to clipboard</div>
 
+<div class="page-wrap">
 <div class="resume" id="resume">
 
   <!-- SIDEBAR -->
@@ -288,7 +349,21 @@
 
     <div class="sidebar-section">
       <div class="sidebar-label">About</div>
-      <p>Seasoned Data Protection Specialist with 13+ years crafting enterprise IT solutions. ITIL-certified, GDPR/HIPAA focused, with deep expertise in Commvault, Veeam, and multi-cloud backup environments.</p>
+      <p>Data Protection Engineer with 14+ years in enterprise IT. L3 escalation lead across NetBackup, Veeam, Commvault, and multi-cloud backup environments, with a focus on automation and GDPR/HIPAA compliance.</p>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Certifications</div>
+      <div class="cert-name">ITIL Foundation</div>
+      <div class="cert-issuer">AXELOS</div>
+      <div class="cert-name" style="margin-top:10px;">ZCP: Enterprise Engineer</div>
+      <div class="cert-issuer">Zerto (HPE) · 2025</div>
+      <div class="cert-name" style="margin-top:10px;">ZCP: Azure 8.0</div>
+      <div class="cert-issuer">Zerto (HPE) · 2025</div>
+      <div class="cert-name" style="margin-top:10px;">Commvault Certified Professional V11</div>
+      <div class="cert-issuer">Commvault · 2019</div>
+      <div class="cert-name" style="margin-top:10px;">Bocada Professional Level</div>
+      <div class="cert-issuer">Bocada · 2022</div>
     </div>
 
     <div class="sidebar-section">
@@ -306,7 +381,7 @@
       <span class="skill-chip">SAN / NAS</span>
       <span class="skill-chip">VMware / Hyper-V</span>
       <span class="skill-chip">Azure / AWS</span>
-      <span class="skill-chip">ITIL</span>
+      <span class="skill-chip">Zerto</span>
       <span class="skill-chip">GDPR / HIPAA</span>
       <span class="skill-chip">Server Management</span>
       <span class="skill-chip">Documentation</span>
@@ -314,7 +389,7 @@
     </div>
 
     <div class="sidebar-section">
-      <div class="sidebar-label">Languages</div>
+      <div class="sidebar-label">Scripting &amp; Automation</div>
       <span class="lang-chip">PowerShell</span>
       <span class="lang-chip">Bash</span>
       <span class="lang-chip">Python</span>
@@ -324,19 +399,20 @@
 
     <div class="sidebar-section">
       <div class="sidebar-label">Links</div>
-      <a href="https://www.linkedin.com/in/daniel-groeschen" target="_blank"><i class="fab fa-linkedin"></i>LinkedIn</a>
-      <a href="https://github.com/dgroeschen" target="_blank"><i class="fab fa-github"></i>GitHub</a>
-      <a href="https://dgroeschen.com" target="_blank"><i class="fas fa-globe"></i>dgroeschen.com</a>
+      <a href="https://www.linkedin.com/in/daniel-groeschen" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i>LinkedIn</a>
+      <a href="https://github.com/dgroeschen" target="_blank" rel="noopener"><i class="fab fa-github"></i>GitHub</a>
+      <a href="https://dgroeschen.com" target="_blank" rel="noopener"><i class="fas fa-globe"></i>dgroeschen.com</a>
     </div>
   </aside>
 
   <!-- MAIN -->
   <main class="main">
     <div class="name">Daniel Groeschen</div>
-    <div class="title-badge">Data Protection Engineer</div>
+    <div class="title-badge">Data Protection · Systems · Automation</div>
     <div class="contact-row">
       <span><i class="fas fa-map-marker-alt"></i>Mason, OH USA</span>
       <span><i class="fas fa-envelope"></i>daniel@dgroeschen.com</span>
+      <span><i class="fas fa-circle-check"></i>Available immediately</span>
     </div>
 
     <div class="section-header">Work Experience</div>
@@ -346,20 +422,28 @@
       <div class="job">
         <div class="job-header">
           <span class="job-company">CBTS</span>
-          <span class="job-date">Aug 2013 – Present</span>
+          <span class="job-date">Aug 2013 – Nov 2026</span>
         </div>
         <div class="job-role">Backup Engineer III</div>
         <div class="job-location"><i class="fas fa-map-marker-alt"></i>Springdale, OH</div>
+        <div class="job-scope">L3 escalation and backup architecture across enterprise, multi-tenant, and large customer environments spanning NetBackup, Veeam, and Commvault.</div>
+
+        <div class="job-subhead">Key Initiatives</div>
         <ul>
-          <li>Serving as L3 escalation point for complex data protection incidents, performing root cause analysis and driving permanent fixes for critical backup failures and performance degradation.</li>
-          <li>Design, implement, and maintain enterprise backup and recovery solutions across multi-tenant and private environments, ensuring backup policies, schedules, retention, and replication align with disaster recovery readiness requirements.</li>
-          <li>Manage backup operations across Windows/Linux servers, VMware/Hyper-V, and databases (SQL, Oracle, SAP, Exchange), with hands-on experience integrating cloud backup via Azure and AWS.</li>
-          <li>Coordinate with vendors and internal stakeholders on critical incidents, upgrades, and hardware replacements, including L1-level HP Storage support (disk, controller, power supply, and cable replacements).</li>
-          <li>Optimize backup environments using industry best practices across SAN, NAS, and object storage technologies, applying TCP/IP and firewall knowledge to ensure reliable data transport.</li>
-          <li>Automate operational workflows using PowerShell scripting, reducing manual effort and improving accuracy across upgrade, enhancement, and optimization cycles.</li>
-          <li>Provide mentoring and technical guidance to L1/L2 teams on data protection best practices, and review operational procedures to drive consistency across multi-tenant environments.</li>
-          <li>Collaborate with compliance and security teams to implement and maintain controls for GDPR, HIPAA, and related frameworks within backup environments.</li>
-          <li>Participate in on-call rotations handling P1/P2 incidents, applying ITIL-aligned processes for incident, problem, and change management with clear stakeholder communication.</li>
+          <li><span class="initiative-name">Multi-Tenant NetBackup Management</span> <span class="initiative-date">(2013–2018)</span> — Administered NetBackup across three enterprise customers: a hospital environment (~400 devices), a financial services customer with a hot/hot DR site, and an additional qualified tenant.</li>
+          <li><span class="initiative-name">Financial Services SLA Performance</span> <span class="initiative-date">(2014–2017)</span> — Sustained 99.9% success across 12,000+ SQL-heavy backup jobs per month for 3 years in a high-availability hot/hot environment.</li>
+          <li><span class="initiative-name">Veeam Backup-as-a-Service Buildout</span> <span class="initiative-date">(2018–2026)</span> — Built and managed a Veeam Cloud Connect BaaS offering: 10 tenants via Cloud Connect plus 3 dedicated Backup &amp; Replication environments, ~2PB / 350 servers combined. Expanded into Commvault administration and Avamar support alongside this.</li>
+          <li><span class="initiative-name">Energy Sector Environment</span> <span class="initiative-date">(2019–2026)</span> — Managed a dedicated Veeam Backup &amp; Replication environment for an energy sector customer: ~500 VMs, 2PB footprint.</li>
+          <li><span class="initiative-name">Alerting &amp; CMDB Automation</span> <span class="initiative-date">(2021–2026)</span> — Designed automated alerting and reporting between backup platform and CMDB using Bocada, cutting false-alert volume by 60%. Audited CI tagging accuracy between CMDB and backup product to further improve data integrity.</li>
+        </ul>
+
+        <div class="job-subhead">Responsibilities</div>
+        <ul>
+          <li>Coordinated vendor and stakeholder response for critical incidents, upgrades, and hardware replacements, including HP Storage component swaps.</li>
+          <li>Optimized backup performance across SAN, NAS, and object storage, applying TCP/IP and firewall knowledge for reliable data transport.</li>
+          <li>Mentored L1/L2 engineers on data protection best practices; provided recurring reporting and audit support for customers.</li>
+          <li>Supported emerging disaster recovery replication scope using Zerto, alongside core backup platform responsibilities.</li>
+          <li>Served on-call for P1/P2 incidents using ITIL-aligned incident, problem, and change management.</li>
         </ul>
       </div>
 
@@ -371,11 +455,11 @@
         <div class="job-role">Infrastructure Support Consultant II</div>
         <div class="job-location"><i class="fas fa-map-marker-alt"></i>Mason, OH</div>
         <ul>
-          <li>Administered backup operations across a large enterprise environment using Veritas NetBackup, EMC Avamar, and EMC Data Domain as primary backup and deduplication targets.</li>
-          <li>Supported enterprise infrastructure spanning UNIX, Windows, and HP-UX platforms, monitoring daily job completion, triaging failures, and escalating complex incidents to L3 engineering.</li>
-          <li>Executed patch deployments and version updates across NetBackup media servers, Avamar nodes, and Data Domain appliances in accordance with change management procedures.</li>
-          <li>Performed granular and full restores, meeting SLA requirements and documenting recovery steps to build a repeatable restore knowledge base.</li>
-          <li>Developed custom scripts to automate backup job reporting and operational workflow tasks, reducing manual overhead for the daily backup run team.</li>
+          <li>Administered enterprise backups with Veritas NetBackup, EMC Avamar, and Data Domain deduplication targets.</li>
+          <li>Supported UNIX, Windows, and HP-UX infrastructure — monitored job completion, triaged failures, escalated to L3.</li>
+          <li>Executed patching across NetBackup media servers, Avamar nodes, and Data Domain appliances under change management.</li>
+          <li>Performed granular and full restores within SLA; documented recovery steps into a repeatable knowledge base.</li>
+          <li>Wrote custom scripts automating backup reporting and workflow tasks for the daily run team.</li>
         </ul>
       </div>
 
@@ -387,64 +471,76 @@
         <div class="job-role">OnSite Tech &amp; Sales</div>
         <div class="job-location"><i class="fas fa-map-marker-alt"></i>Bellevue, KY</div>
         <ul>
-          <li>Performed computer repair, diagnostics, and system rebuilds for residential and small business clients.</li>
-          <li>Provided Office Suite support, general troubleshooting, batch scripting, data backup, and virus prevention.</li>
+          <li>Computer repair, diagnostics, system rebuilds, and general support for residential and small-business clients, including batch scripting and data backup.</li>
         </ul>
       </div>
 
     </div>
   </main>
 </div>
+</div>
 
-<footer style="text-align:center; color:#475569; font-size:12px; padding: 16px 0 32px; font-family: 'JetBrains Mono', monospace;">
-  Site and design © 2025 dgroeschen.com
+<footer style="text-align:center; color:#64748b; font-size:12px; padding: 16px 0 32px; font-family: 'JetBrains Mono', monospace;">
+  Site and design © 2026 dgroeschen.com
 </footer>
 
 <script>
 function copyMarkdown() {
   const md = `# Daniel Groeschen
-**Data Protection L3 Engineer**
-Mason, OH USA · daniel@dgroeschen.com
+**Data Protection Engineer — Systems Administration & Automation**
+Mason, OH USA · daniel@dgroeschen.com · Available immediately
 LinkedIn: https://www.linkedin.com/in/daniel-groeschen · GitHub: https://github.com/dgroeschen · Web: https://dgroeschen.com
 
 ---
 
 ## About
-Seasoned Data Protection Specialist with 13+ years crafting enterprise IT solutions. ITIL-certified, GDPR/HIPAA focused, with deep expertise in Commvault, Veeam, and multi-cloud backup environments.
+Data Protection Engineer with 14+ years in enterprise IT. L3 escalation lead across NetBackup, Veeam, Commvault, and multi-cloud backup environments, with a focus on automation and GDPR/HIPAA compliance.
 
 ---
 
 ## Work Experience
 
 ### Backup Engineer III — CBTS, Springdale OH
-**Aug 2013 – Present**
+**Aug 2013 – Nov 2026**
 
-- Serve as L3 escalation point for complex data protection incidents, performing root cause analysis and driving permanent fixes for critical backup failures and performance degradation.
-- Design, implement, and maintain enterprise backup and recovery solutions across multi-tenant and private environments, ensuring backup policies, schedules, retention, and replication align with disaster recovery readiness requirements.
-- Manage backup operations across Windows/Linux servers, VMware/Hyper-V, and databases (SQL, Oracle, SAP, Exchange), with hands-on experience integrating cloud backup via Azure and AWS.
-- Coordinate with vendors and internal stakeholders on critical incidents, upgrades, and hardware replacements, including L1-level HP Storage support (disk, controller, power supply, and cable replacements).
-- Optimize backup environments using industry best practices across SAN, NAS, and object storage technologies, applying TCP/IP and firewall knowledge to ensure reliable data transport.
-- Automate operational workflows using PowerShell scripting, reducing manual effort and improving accuracy across upgrade, enhancement, and optimization cycles.
-- Provide mentoring and technical guidance to L1/L2 teams on data protection best practices, and review operational procedures to drive consistency across multi-tenant environments.
-- Collaborate with compliance and security teams to implement and maintain controls for GDPR, HIPAA, and related frameworks within backup environments.
-- Participate in on-call rotations handling P1/P2 incidents, applying ITIL-aligned processes for incident, problem, and change management with clear stakeholder communication.
+L3 escalation and backup architecture across enterprise, multi-tenant, and large customer environments spanning NetBackup, Veeam, and Commvault.
+
+**Key Initiatives**
+- **Multi-Tenant NetBackup Management** (2013–2018) — Administered NetBackup across three enterprise customers: a hospital environment (~400 devices), a financial services customer with a hot/hot DR site, and an additional qualified tenant.
+- **Financial Services SLA Performance** (2014–2017) — Sustained 99.9% success across 12,000+ SQL-heavy backup jobs per month for 3 years in a high-availability hot/hot environment.
+- **Veeam Backup-as-a-Service Buildout** (2018–2026) — Built and managed a Veeam Cloud Connect BaaS offering: 10 tenants via Cloud Connect plus 3 dedicated Backup & Replication environments, ~2PB / 350 servers combined. Expanded into Commvault administration and Avamar support alongside this.
+- **Energy Sector Environment** (2019–2026) — Managed a dedicated Veeam Backup & Replication environment for an energy sector customer: ~500 VMs, 2PB footprint.
+- **Alerting & CMDB Automation** (2021–2026) — Designed automated alerting and reporting between backup platform and CMDB using Bocada, cutting false-alert volume by 60%. Audited CI tagging accuracy between CMDB and backup product to further improve data integrity.
+
+**Responsibilities**
+- Coordinated vendor and stakeholder response for critical incidents, upgrades, and hardware replacements, including HP Storage component swaps.
+- Optimized backup performance across SAN, NAS, and object storage, applying TCP/IP and firewall knowledge for reliable data transport.
+- Mentored L1/L2 engineers on data protection best practices; provided recurring reporting and audit support for customers.
+- Supported emerging disaster recovery replication scope using Zerto, alongside core backup platform responsibilities.
+- Served on-call for P1/P2 incidents using ITIL-aligned incident, problem, and change management.
 
 ### Infrastructure Support Consultant II — LTI (Logic Technology Inc.), Mason OH
 **May 2012 – Aug 2013**
 
-- Administered backup operations across a large enterprise environment using Veritas NetBackup, EMC Avamar, and EMC Data Domain as primary backup and deduplication targets.
-- Supported enterprise infrastructure spanning UNIX, Windows, and HP-UX platforms, monitoring daily job completion, triaging failures, and escalating complex incidents to L3 engineering.
-- Executed patch deployments and version updates across NetBackup media servers, Avamar nodes, and Data Domain appliances in accordance with change management procedures.
-- Performed granular and full restores, meeting SLA requirements and documenting recovery steps to build a repeatable restore knowledge base.
-- Developed custom scripts to automate backup job reporting and operational workflow tasks, reducing manual overhead for the daily backup run team.
+- Administered enterprise backups with Veritas NetBackup, EMC Avamar, and Data Domain deduplication targets.
+- Supported UNIX, Windows, and HP-UX infrastructure — monitored job completion, triaged failures, escalated to L3.
+- Executed patching across NetBackup media servers, Avamar nodes, and Data Domain appliances under change management.
+- Performed granular and full restores within SLA; documented recovery steps into a repeatable knowledge base.
+- Wrote custom scripts automating backup reporting and workflow tasks for the daily run team.
 
 ### OnSite Tech & Sales — SB Comp, Bellevue KY
 **Aug 2010 – May 2012**
 
-- Performed computer repair, diagnostics, and system rebuilds for residential and small business clients.
-- Provided Office Suite support, general troubleshooting, batch scripting, data backup, and virus prevention.
+- Computer repair, diagnostics, system rebuilds, and general support for residential and small-business clients, including batch scripting and data backup.
 
 ---
+
+## Certifications
+**ITIL Foundation** — AXELOS
+**ZCP: Enterprise Engineer** — Zerto (HPE), 2025
+**ZCP: Azure 8.0** — Zerto (HPE), 2025
+**Commvault Certified Professional V11** — Commvault, 2019
+**Bocada Professional Level** — Bocada, 2022
 
 ## Education
 **Bachelor of Science** — Northern Kentucky University (2010)
@@ -452,9 +548,9 @@ Seasoned Data Protection Specialist with 13+ years crafting enterprise IT soluti
 ---
 
 ## Skills
-Backup Administration · Capacity Planning · Data Protection · Disaster Recovery · SAN/NAS · VMware/Hyper-V · Azure/AWS · ITIL · GDPR/HIPAA · Server Management · Documentation · Vendor Management
+Backup Administration · Capacity Planning · Data Protection · Disaster Recovery · SAN/NAS · VMware/Hyper-V · Azure/AWS · Zerto · GDPR/HIPAA · Server Management · Documentation · Vendor Management
 
-## Languages
+## Scripting & Automation
 PowerShell · Bash · Python · Perl · HTML/CSS`;
 
   navigator.clipboard.writeText(md).then(() => {
